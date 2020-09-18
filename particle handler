@@ -1,0 +1,15 @@
+def handle_particles(surface, particles_list, shape, decay_rate, max_size, min_size):
+
+    for particle in particles_list:
+        particle[0][X] += particle[1][X]
+        particle[0][Y] += particle[1][Y]
+        particle[2] += decay_rate
+        if shape == "rect":
+            pygame.draw.rect(surface, particle[3], camera.apply((particle[0][X], particle[0][Y], particle[2], particle[2])))
+        elif shape == "circle":
+            drawing_pos = camera.apply((int(particle[0][X]), int(particle[0][Y])))
+            pygame.draw.circle(surface, particle[3],(int(drawing_pos[X]), int(drawing_pos[Y])) , int(particle[2]))
+        if particle[2] <= min_size or particle[2] >= max_size:
+            particles_list.remove(particle)
+            del particle
+    return particles_list
